@@ -1,6 +1,7 @@
+import 'package:election_exit_poll_07610567/pages/poll/poll_page_result.dart';
 import 'package:flutter/material.dart';
-import 'package:election_exit_poll_07610567/models/food_item.dart';
-import 'package:election_exit_poll_07610567/pages/food/food_list_page.dart';
+import 'package:election_exit_poll_07610567/models/poll_item.dart';
+import 'package:election_exit_poll_07610567/pages/poll/poll_list_page.dart';
 import 'package:election_exit_poll_07610567/services/api.dart';
 
 class FoodPage extends StatefulWidget {
@@ -19,12 +20,12 @@ class _FoodPageState extends State<FoodPage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: 'Menu',
+            icon: Icon(Icons.add_circle_outlined),
+            label: 'โหวต',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Your Order',
+            icon: Icon(Icons.signal_cellular_alt),
+            label: 'คะแนนโหวต',
           ),
         ],
         currentIndex: _selectedBottomNavIndex,
@@ -40,18 +41,13 @@ class _FoodPageState extends State<FoodPage> {
       ),*/
       body: _selectedBottomNavIndex == 0
           ? FoodListPage()
-          : Container(
-              child: Center(
-                child: Text('YOUR ORDER',
-                    style: Theme.of(context).textTheme.headline1),
-              ),
-            ),
+          : PollPageResult()
     );
   }
 
   _fetchFoods() async {
     try {
-      var list = (await Api().fetch('foods')) as List<dynamic>;
+      var list = (await Api().fetch('exit_poll')) as List<dynamic>;
       var foodList = list.map((item) => FoodItem.fromJson(item)).toList();
       print('Number of foods: ${foodList.length}');
     } catch (e) {

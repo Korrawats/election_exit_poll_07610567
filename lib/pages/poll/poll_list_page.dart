@@ -1,11 +1,16 @@
+import 'dart:convert';
+
+import 'package:election_exit_poll_07610567/models/api_result.dart';
 import 'package:flutter/material.dart';
-import 'package:election_exit_poll_07610567/models/food_item.dart';
-import 'package:election_exit_poll_07610567/pages/food/food_details_page.dart';
+import 'package:election_exit_poll_07610567/models/poll_item.dart';
+import 'package:election_exit_poll_07610567/pages/poll/food_details_page.dart';
 import 'package:election_exit_poll_07610567/services/api.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 
 class FoodListPage extends StatefulWidget {
   static const routeName = '/food_list_page';
+
 
   const FoodListPage({Key? key}) : super(key: key);
 
@@ -15,6 +20,8 @@ class FoodListPage extends StatefulWidget {
 
 class _FoodListPageState extends State<FoodListPage> {
   late Future<List<FoodItem>> _futureFoodList;
+
+  get jsonBody => null;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +78,6 @@ class _FoodListPageState extends State<FoodListPage> {
                     onTap: () => _handleClickFoodItem(foodItem),
                     child: Row(
                       children: <Widget>[
-                        Image.network(
-                          foodItem.image,
-                          width: 80.0,
-                          height: 80.0,
-                          fit: BoxFit.cover,
-                        ),
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.all(10.0),
@@ -86,13 +87,17 @@ class _FoodListPageState extends State<FoodListPage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      foodItem.name,
-                                      style: GoogleFonts.prompt(fontSize: 20.0),
-                                    ),
-                                    Text(
-                                      '${foodItem.price.toString()} บาท',
-                                      style: GoogleFonts.prompt(fontSize: 15.0),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '${foodItem.number}',
+                                          style: GoogleFonts.prompt(fontSize: 20.0),
+                                        ),
+                                        Text(
+                                          ' ${foodItem.fullName}',
+                                          style: GoogleFonts.prompt(fontSize: 15.0),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -114,11 +119,45 @@ class _FoodListPageState extends State<FoodListPage> {
     );
   }
 
+  Future<bool?> _login() async {
+    try {
+      var isLogin = (await Api().submit('exit_poll', {'candidateNumber': 3} )) as bool;
+      print('LOGIN: $isLogin');
+      return isLogin;
+    } catch (e) {
+      return null;
+    }
+  }
+
+
+
+  void _showMaterialDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("SUCCESS"),
+          content: Text("$jsonBody", style: Theme.of(context).textTheme.bodyText2),
+          actions: [
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                // ปิด dialog
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<List<FoodItem>> _loadFoods() async {
-    List list = await Api().fetch('foods');
+    List list = await Api().fetch('exit_poll');
     var foodList = list.map((item) => FoodItem.fromJson(item)).toList();
     return foodList;
   }
+
 
   @override
   initState() {
@@ -130,10 +169,9 @@ class _FoodListPageState extends State<FoodListPage> {
   }
 
   _handleClickFoodItem(FoodItem foodItem) {
-    Navigator.pushNamed(
-      context,
-      FoodDetailsPage.routeName,
-      arguments: foodItem,
-    );
+    setState(() {
+      _login();
+      _showMaterialDialog();
+    });
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:election_exit_poll_07610567/models/food_item.dart';
+import 'package:election_exit_poll_07610567/models/poll_item.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class FoodDetailsPage extends StatelessWidget {
@@ -14,29 +14,18 @@ class FoodDetailsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(foodItem.name),
+        title: Text("abc"),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            AspectRatio(
-              aspectRatio: 3 / 2,
-              child: Image.network(
-                foodItem.image,
-                fit: BoxFit.cover,
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    'ชื่อเมนู: ${foodItem.name}',
-                    style: GoogleFonts.prompt(fontSize: 20.0),
-                  ),
-                  Text(
-                    'ราคา: ${foodItem.price.toString()} บาท',
+                    '${foodItem.number}: ${foodItem.fullName}',
                     style: GoogleFonts.prompt(fontSize: 20.0),
                   ),
                 ],
@@ -50,11 +39,7 @@ class FoodDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       Text(
-                        'ชื่อเมนู: ${foodItem.name}',
-                        style: GoogleFonts.prompt(fontSize: 20.0),
-                      ),
-                      Text(
-                        'ราคา: ${foodItem.price.toString()} บาท',
+                        '${foodItem.number}: ${foodItem.fullName}',
                         style: GoogleFonts.prompt(fontSize: 20.0),
                       ),
                       Expanded(

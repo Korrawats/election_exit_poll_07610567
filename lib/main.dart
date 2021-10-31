@@ -1,8 +1,7 @@
+import 'package:election_exit_poll_07610567/pages/home/home_page_poll.dart';
 import 'package:flutter/material.dart';
-import 'package:election_exit_poll_07610567/pages/food/food_details_page.dart';
-import 'package:election_exit_poll_07610567/pages/food/food_list_page.dart';
-import 'package:election_exit_poll_07610567/pages/home/home_page.dart';
-import 'package:election_exit_poll_07610567/pages/login/login_page.dart';
+import 'package:election_exit_poll_07610567/pages/poll/food_details_page.dart';
+import 'package:election_exit_poll_07610567/pages/poll/poll_list_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'EXIT POLL',
       theme: ThemeData(
         fontFamily: GoogleFonts.prompt().fontFamily,
         primarySwatch: Colors.purple,
@@ -33,12 +32,11 @@ class MyApp extends StatelessWidget {
       ),
       //home: LoginPage(),
       routes: {
-        LoginPage.routeName: (context) => const LoginPage(),
         HomePage.routeName: (context) => const HomePage(),
         FoodListPage.routeName: (context) => const FoodListPage(),
         FoodDetailsPage.routeName: (context) => const FoodDetailsPage(),
       },
-      initialRoute: LoginPage.routeName,
+      initialRoute: HomePage.routeName,
     );
   }
 }
